@@ -1,38 +1,37 @@
 import { PostgresDatabaseAdapter } from "@ai16z/adapter-postgres";
 import { SqliteDatabaseAdapter } from "@ai16z/adapter-sqlite";
+import { AutoClientInterface } from "@ai16z/client-auto";
+import type { DirectClient } from "@ai16z/client-direct";
 import { DirectClientInterface } from "@ai16z/client-direct";
 import { DiscordClientInterface } from "@ai16z/client-discord";
-import { AutoClientInterface } from "@ai16z/client-auto";
 import { TelegramClientInterface } from "@ai16z/client-telegram";
 import { TwitterClientInterface } from "@ai16z/client-twitter";
 import {
-  DbCacheAdapter,
-  defaultCharacter,
-  FsCacheAdapter,
-  ICacheManager,
-  IDatabaseCacheAdapter,
-  stringToUuid,
   AgentRuntime,
   CacheManager,
   Character,
-  IAgentRuntime,
-  ModelProviderName,
+  DbCacheAdapter,
+  defaultCharacter,
   elizaLogger,
-  settings,
+  IAgentRuntime,
+  ICacheManager,
   IDatabaseAdapter,
+  IDatabaseCacheAdapter,
+  ModelProviderName,
+  settings,
+  stringToUuid,
   validateCharacterConfig,
 } from "@ai16z/eliza";
 import { bootstrapPlugin } from "@ai16z/plugin-bootstrap";
-import { solanaPlugin } from "@ai16z/plugin-solana";
 import { nodePlugin } from "@ai16z/plugin-node";
+import { solanaPlugin } from "@ai16z/plugin-solana";
 import Database from "better-sqlite3";
 import fs from "fs";
-import readline from "readline";
-import yargs from "yargs";
 import path from "path";
+import readline from "readline";
 import { fileURLToPath } from "url";
+import yargs from "yargs";
 import { character } from "./character.ts";
-import type { DirectClient } from "@ai16z/client-direct";
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
@@ -230,14 +229,7 @@ export function createAgent(
   });
 }
 
-function intializeFsCache(baseDir: string, character: Character) {
-  const cacheDir = path.resolve(baseDir, character.id, "cache");
-
-  const cache = new CacheManager(new FsCacheAdapter(cacheDir));
-  return cache;
-}
-
-function intializeDbCache(character: Character, db: IDatabaseCacheAdapter) {
+function initializeDbCache(character: Character, db: IDatabaseCacheAdapter) {
   const cache = new CacheManager(new DbCacheAdapter(db, character.id));
   return cache;
 }
@@ -258,7 +250,7 @@ async function startAgent(character: Character, directClient: DirectClient) {
 
     await db.init();
 
-    const cache = intializeDbCache(character, db);
+    const cache = initializeDbCache(character, db);
     const runtime = createAgent(character, db, cache, token);
 
     await runtime.initialize();
