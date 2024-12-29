@@ -21,10 +21,10 @@ import {
   settings,
   IDatabaseAdapter,
   validateCharacterConfig,
-} from "@elizaos/eliza";
+} from "@elizaos/core";
 import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
 import { solanaPlugin } from "@elizaos/plugin-solana";
-import { nodePlugin } from "@elizaos/plugin-node";
+import nodePlugin from "@elizaos/plugin-node";
 import Database from "better-sqlite3";
 import fs from "fs";
 import readline from "readline";
