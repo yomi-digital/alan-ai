@@ -6,3 +6,4 @@ node_modules
 
 db.sqlite
 dist/
+node_modules
