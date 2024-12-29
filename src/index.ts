@@ -1,6 +1,5 @@
 import { PostgresDatabaseAdapter } from "@elizaos/adapter-postgres";
 import { SqliteDatabaseAdapter } from "@elizaos/adapter-sqlite";
-import { DirectClientInterface } from "@elizaos/client-direct";
 import { DiscordClientInterface } from "@elizaos/client-discord";
 import { AutoClientInterface } from "@elizaos/client-auto";
 import { TelegramClientInterface } from "@elizaos/client-telegram";
@@ -24,7 +23,7 @@ import {
 } from "@elizaos/core";
 import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
 import { solanaPlugin } from "@elizaos/plugin-solana";
-import nodePlugin from "@elizaos/plugin-node";
+import { createNodePlugin } from "@elizaos/plugin-node";
 import Database from "better-sqlite3";
 import fs from "fs";
 import readline from "readline";
@@ -32,7 +31,7 @@ import yargs from "yargs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { character } from "./character.ts";
-import type { DirectClient } from "@elizaos/client-direct";
+import { DirectClient } from "@elizaos/client-direct";
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
@@ -200,6 +199,8 @@ export async function initializeClients(
   return clients;
 }
 
+let nodePlugin: any | undefined;
+
 export function createAgent(
   character: Character,
   db: IDatabaseAdapter,
@@ -211,6 +212,9 @@ export function createAgent(
     "Creating runtime for character",
     character.name
   );
+
+  nodePlugin ??= createNodePlugin();
+
   return new AgentRuntime({
     databaseAdapter: db,
     token,
@@ -279,7 +283,7 @@ async function startAgent(character: Character, directClient: DirectClient) {
 }
 
 const startAgents = async () => {
-  const directClient = await DirectClientInterface.start();
+  const directClient = new DirectClient();
   const args = parseArguments();
 
   let charactersArg = args.characters || args.character;
