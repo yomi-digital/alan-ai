@@ -13,16 +13,16 @@ import fs from "fs";
 import net from "net";
 import path from "path";
 import { fileURLToPath } from "url";
-import { intializeDbCache } from "./cache";
-import { character } from "./character";
-import { startChat } from "./chat";
-import { initializeClients } from "./clients";
+import { initializeDbCache } from "./cache/index.ts";
+import { character } from "./character.ts";
+import { startChat } from "./chat/index.ts";
+import { initializeClients } from "./clients/index.ts";
 import {
   getTokenForProvider,
   loadCharacters,
   parseArguments,
-} from "./config";
-import { initializeDatabase } from "./database";
+} from "./config/index.ts";
+import { initializeDatabase } from "./database/index.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -84,7 +84,7 @@ async function startAgent(character: Character, directClient: DirectClient) {
 
     await db.init();
 
-    const cache = intializeDbCache(character, db);
+    const cache = initializeDbCache(character, db);
     const runtime = createAgent(character, db, cache, token);
 
     await runtime.initialize();

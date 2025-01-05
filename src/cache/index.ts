@@ -1,15 +1,7 @@
 
-import { CacheManager, Character, DbCacheAdapter, FsCacheAdapter, IDatabaseCacheAdapter } from "@elizaos/core";
-import path from "path";
+import { CacheManager, Character, DbCacheAdapter, IDatabaseCacheAdapter } from "@elizaos/core";
 
-export function intializeFsCache(baseDir: string, character: Character) {
-  const cacheDir = path.resolve(baseDir, character.id, "cache");
-
-  const cache = new CacheManager(new FsCacheAdapter(cacheDir));
-  return cache;
-}
-
-export function intializeDbCache(
+export function initializeDbCache(
   character: Character,
   db: IDatabaseCacheAdapter
 ) {
