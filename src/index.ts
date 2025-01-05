@@ -1,27 +1,28 @@
-import type { DirectClient } from "@ai16z/client-direct";
-import { DirectClientInterface } from "@ai16z/client-direct";
+import { DirectClient } from "@elizaos/client-direct";
 import {
   AgentRuntime,
   elizaLogger,
+  settings,
   stringToUuid,
   type Character,
-} from "@ai16z/eliza";
-import { bootstrapPlugin } from "@ai16z/plugin-bootstrap";
-import { nodePlugin } from "@ai16z/plugin-node";
-import { solanaPlugin } from "@ai16z/plugin-solana";
+} from "@elizaos/core";
+import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
+import { createNodePlugin } from "@elizaos/plugin-node";
+import { solanaPlugin } from "@elizaos/plugin-solana";
 import fs from "fs";
+import net from "net";
 import path from "path";
 import { fileURLToPath } from "url";
-import { intializeDbCache } from "./cache/index.js";
-import { character } from "./character.js";
-import { startChat } from "./chat/index.js";
-import { initializeClients } from "./clients/index.js";
+import { intializeDbCache } from "./cache";
+import { character } from "./character";
+import { startChat } from "./chat";
+import { initializeClients } from "./clients";
 import {
   getTokenForProvider,
   loadCharacters,
   parseArguments,
-} from "./config/index.js";
-import { initializeDatabase } from "./database/index.js";
+} from "./config";
+import { initializeDatabase } from "./database";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,6 +33,8 @@ export const wait = (minTime: number = 1000, maxTime: number = 3000) => {
   return new Promise((resolve) => setTimeout(resolve, waitTime));
 };
 
+let nodePlugin: any | undefined;
+
 export function createAgent(
   character: Character,
   db: any,
@@ -41,8 +44,11 @@ export function createAgent(
   elizaLogger.success(
     elizaLogger.successesTitle,
     "Creating runtime for character",
-    character.name
+    character.name,
   );
+
+  nodePlugin ??= createNodePlugin();
+
   return new AgentRuntime({
     databaseAdapter: db,
     token,
@@ -83,28 +89,51 @@ async function startAgent(character: Character, directClient: DirectClient) {
 
     await runtime.initialize();
 
-    const clients = await initializeClients(character, runtime);
+    runtime.clients = await initializeClients(character, runtime);
 
     directClient.registerAgent(runtime);
 
-    return clients;
+    // report to console
+    elizaLogger.debug(`Started ${character.name} as ${runtime.agentId}`);
+
+    return runtime;
   } catch (error) {
     elizaLogger.error(
       `Error starting agent for character ${character.name}:`,
-      error
+      error,
     );
     console.error(error);
     throw error;
   }
 }
 
+const checkPortAvailable = (port: number): Promise<boolean> => {
+  return new Promise((resolve) => {
+    const server = net.createServer();
+
+    server.once("error", (err: NodeJS.ErrnoException) => {
+      if (err.code === "EADDRINUSE") {
+        resolve(false);
+      }
+    });
+
+    server.once("listening", () => {
+      server.close();
+      resolve(true);
+    });
+
+    server.listen(port);
+  });
+};
+
 const startAgents = async () => {
-  const directClient = await DirectClientInterface.start();
+  const directClient = new DirectClient();
+  let serverPort = parseInt(settings.SERVER_PORT || "3000");
   const args = parseArguments();
 
   let charactersArg = args.characters || args.character;
-
   let characters = [character];
+
   console.log("charactersArg", charactersArg);
   if (charactersArg) {
     characters = await loadCharacters(charactersArg);
@@ -116,6 +145,23 @@ const startAgents = async () => {
     }
   } catch (error) {
     elizaLogger.error("Error starting agents:", error);
+  }
+
+  while (!(await checkPortAvailable(serverPort))) {
+    elizaLogger.warn(`Port ${serverPort} is in use, trying ${serverPort + 1}`);
+    serverPort++;
+  }
+
+  // upload some agent functionality into directClient
+  directClient.startAgent = async (character: Character) => {
+    // wrap it so we don't have to inject directClient later
+    return startAgent(character, directClient);
+  };
+
+  directClient.start(serverPort);
+
+  if (serverPort !== parseInt(settings.SERVER_PORT || "3000")) {
+    elizaLogger.log(`Server started on alternate port ${serverPort}`);
   }
 
   elizaLogger.log("Chat started. Type 'exit' to quit.");

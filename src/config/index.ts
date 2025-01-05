@@ -1,9 +1,5 @@
-import type { Character } from "@ai16z/eliza";
-import {
-  ModelProviderName,
-  settings,
-  validateCharacterConfig,
-} from "@ai16z/eliza";
+
+import { Character, ModelProviderName, settings, validateCharacterConfig } from "@elizaos/core";
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";

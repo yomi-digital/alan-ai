@@ -1,5 +1,5 @@
-import { PostgresDatabaseAdapter } from "@ai16z/adapter-postgres";
-import { SqliteDatabaseAdapter } from "@ai16z/adapter-sqlite";
+import { PostgresDatabaseAdapter } from "@elizaos/adapter-postgres";
+import { SqliteDatabaseAdapter } from "@elizaos/adapter-sqlite";
 import Database from "better-sqlite3";
 import path from "path";
 

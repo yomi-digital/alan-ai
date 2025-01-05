@@ -1,10 +1,5 @@
-import type { Character } from "@ai16z/eliza";
-import {
-  CacheManager,
-  DbCacheAdapter,
-  FsCacheAdapter,
-  IDatabaseCacheAdapter,
-} from "@ai16z/eliza";
+
+import { CacheManager, Character, DbCacheAdapter, FsCacheAdapter, IDatabaseCacheAdapter } from "@elizaos/core";
 import path from "path";
 
 export function intializeFsCache(baseDir: string, character: Character) {

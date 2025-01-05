@@ -1,8 +1,8 @@
-import { AutoClientInterface } from "@ai16z/client-auto";
-import { DiscordClientInterface } from "@ai16z/client-discord";
-import { TelegramClientInterface } from "@ai16z/client-telegram";
-import { TwitterClientInterface } from "@ai16z/client-twitter";
-import type { Character, IAgentRuntime } from "@ai16z/eliza";
+import { AutoClientInterface } from "@elizaos/client-auto";
+import { DiscordClientInterface } from "@elizaos/client-discord";
+import { TelegramClientInterface } from "@elizaos/client-telegram";
+import { TwitterClientInterface } from "@elizaos/client-twitter";
+import { Character, IAgentRuntime } from "@elizaos/core";
 
 export async function initializeClients(
   character: Character,
