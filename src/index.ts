@@ -236,14 +236,14 @@ export function createAgent(
   });
 }
 
-function intializeFsCache(baseDir: string, character: Character) {
+function initializeFsCache(baseDir: string, character: Character) {
   const cacheDir = path.resolve(baseDir, character.id, "cache");
 
   const cache = new CacheManager(new FsCacheAdapter(cacheDir));
   return cache;
 }
 
-function intializeDbCache(character: Character, db: IDatabaseCacheAdapter) {
+function initializeDbCache(character: Character, db: IDatabaseCacheAdapter) {
   const cache = new CacheManager(new DbCacheAdapter(db, character.id));
   return cache;
 }
@@ -264,7 +264,7 @@ async function startAgent(character: Character, directClient: DirectClient) {
 
     await db.init();
 
-    const cache = intializeDbCache(character, db);
+    const cache = initializeDbCache(character, db);
     const runtime = createAgent(character, db, cache, token);
 
     await runtime.initialize();
@@ -375,11 +375,10 @@ rl.on("SIGINT", () => {
   process.exit(0);
 });
 
-async function handleUserInput(input, agentId) {
+async function handleUserInput(input :string, agentId :string) {
   if (input.toLowerCase() === "exit") {
     rl.close();
     process.exit(0);
-    return;
   }
 
   try {
