@@ -2,7 +2,7 @@
 
 ## Edit the character files
 
-Open `agent/src/character.ts` to modify the default character. Uncomment and edit.
+Open `src/character.ts` to modify the default character. Uncomment and edit.
 
 ### Custom characters
 
