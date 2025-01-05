@@ -1,38 +1,37 @@
 import { PostgresDatabaseAdapter } from "@elizaos/adapter-postgres";
 import { SqliteDatabaseAdapter } from "@elizaos/adapter-sqlite";
+import { AutoClientInterface } from "@elizaos/client-auto";
 import { DirectClient } from "@elizaos/client-direct";
 import { DiscordClientInterface } from "@elizaos/client-discord";
-import { AutoClientInterface } from "@elizaos/client-auto";
 import { TelegramClientInterface } from "@elizaos/client-telegram";
 import { TwitterClientInterface } from "@elizaos/client-twitter";
 import {
-  DbCacheAdapter,
-  defaultCharacter,
-  FsCacheAdapter,
-  ICacheManager,
-  IDatabaseCacheAdapter,
-  stringToUuid,
   AgentRuntime,
   CacheManager,
   Character,
+  DbCacheAdapter,
   IAgentRuntime,
+  ICacheManager,
+  IDatabaseAdapter,
+  IDatabaseCacheAdapter,
   ModelProviderName,
+  defaultCharacter,
   elizaLogger,
   settings,
-  IDatabaseAdapter,
-  validateCharacterConfig,
+  stringToUuid,
+  validateCharacterConfig
 } from "@elizaos/core";
 import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
+import { createNodePlugin } from "@elizaos/plugin-node";
 import { solanaPlugin } from "@elizaos/plugin-solana";
-import {createNodePlugin, NodePlugin} from "@elizaos/plugin-node";
 import Database from "better-sqlite3";
 import fs from "fs";
-import readline from "readline";
-import yargs from "yargs";
-import path from "path";
-import { fileURLToPath } from "url";
-import { character } from "./character.ts";
 import net from "net";
+import path from "path";
+import readline from "readline";
+import { fileURLToPath } from "url";
+import yargs from "yargs";
+import { character } from "./character.ts";
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
@@ -65,7 +64,7 @@ export function parseArguments(): {
 }
 
 export async function loadCharacters(
-  charactersArg: string
+  charactersArg: string,
 ): Promise<Character[]> {
   let characterPaths = charactersArg?.split(",").map((filePath) => {
     if (path.basename(filePath) === filePath) {
@@ -78,7 +77,7 @@ export async function loadCharacters(
 
   if (characterPaths?.length > 0) {
     for (const path of characterPaths) {
-      console.log('path', path);
+      console.log("path", path);
       try {
         const character = JSON.parse(fs.readFileSync(path, "utf8"));
 
@@ -103,7 +102,7 @@ export async function loadCharacters(
 
 export function getTokenForProvider(
   provider: ModelProviderName,
-  character: Character
+  character: Character,
 ) {
   switch (provider) {
     case ModelProviderName.OPENAI:
@@ -164,7 +163,7 @@ function initializeDatabase(dataDir: string) {
 
 export async function initializeClients(
   character: Character,
-  runtime: IAgentRuntime
+  runtime: IAgentRuntime,
 ) {
   const clients = [];
   const clientTypes = character.clients?.map((str) => str.toLowerCase()) || [];
@@ -207,12 +206,12 @@ export function createAgent(
   character: Character,
   db: IDatabaseAdapter,
   cache: ICacheManager,
-  token: string
+  token: string,
 ) {
   elizaLogger.success(
     elizaLogger.successesTitle,
     "Creating runtime for character",
-    character.name
+    character.name,
   );
 
   nodePlugin ??= createNodePlugin();
@@ -234,13 +233,6 @@ export function createAgent(
     managers: [],
     cacheManager: cache,
   });
-}
-
-function initializeFsCache(baseDir: string, character: Character) {
-  const cacheDir = path.resolve(baseDir, character.id, "cache");
-
-  const cache = new CacheManager(new FsCacheAdapter(cacheDir));
-  return cache;
 }
 
 function initializeDbCache(character: Character, db: IDatabaseCacheAdapter) {
@@ -280,7 +272,7 @@ async function startAgent(character: Character, directClient: DirectClient) {
   } catch (error) {
     elizaLogger.error(
       `Error starting agent for character ${character.name}:`,
-      error
+      error,
     );
     console.error(error);
     throw error;
@@ -338,9 +330,7 @@ const startAgents = async () => {
   }
 
   while (!(await checkPortAvailable(serverPort))) {
-    elizaLogger.warn(
-        `Port ${serverPort} is in use, trying ${serverPort + 1}`
-    );
+    elizaLogger.warn(`Port ${serverPort} is in use, trying ${serverPort + 1}`);
     serverPort++;
   }
 
@@ -375,7 +365,7 @@ rl.on("SIGINT", () => {
   process.exit(0);
 });
 
-async function handleUserInput(input :string, agentId :string) {
+async function handleUserInput(input: string, agentId: string) {
   if (input.toLowerCase() === "exit") {
     rl.close();
     process.exit(0);
@@ -394,7 +384,7 @@ async function handleUserInput(input :string, agentId :string) {
           userId: "user",
           userName: "User",
         }),
-      }
+      },
     );
 
     const data = await response.json();
