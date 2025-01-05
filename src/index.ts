@@ -1,37 +1,38 @@
-import { PostgresDatabaseAdapter } from "@ai16z/adapter-postgres";
-import { SqliteDatabaseAdapter } from "@ai16z/adapter-sqlite";
-import { AutoClientInterface } from "@ai16z/client-auto";
-import type { DirectClient } from "@ai16z/client-direct";
-import { DirectClientInterface } from "@ai16z/client-direct";
-import { DiscordClientInterface } from "@ai16z/client-discord";
-import { TelegramClientInterface } from "@ai16z/client-telegram";
-import { TwitterClientInterface } from "@ai16z/client-twitter";
+import { PostgresDatabaseAdapter } from "@elizaos/adapter-postgres";
+import { SqliteDatabaseAdapter } from "@elizaos/adapter-sqlite";
+import { DirectClient } from "@elizaos/client-direct";
+import { DiscordClientInterface } from "@elizaos/client-discord";
+import { AutoClientInterface } from "@elizaos/client-auto";
+import { TelegramClientInterface } from "@elizaos/client-telegram";
+import { TwitterClientInterface } from "@elizaos/client-twitter";
 import {
+  DbCacheAdapter,
+  defaultCharacter,
+  FsCacheAdapter,
+  ICacheManager,
+  IDatabaseCacheAdapter,
+  stringToUuid,
   AgentRuntime,
   CacheManager,
   Character,
-  DbCacheAdapter,
-  defaultCharacter,
-  elizaLogger,
   IAgentRuntime,
-  ICacheManager,
-  IDatabaseAdapter,
-  IDatabaseCacheAdapter,
   ModelProviderName,
+  elizaLogger,
   settings,
-  stringToUuid,
+  IDatabaseAdapter,
   validateCharacterConfig,
-} from "@ai16z/eliza";
-import { bootstrapPlugin } from "@ai16z/plugin-bootstrap";
-import { nodePlugin } from "@ai16z/plugin-node";
-import { solanaPlugin } from "@ai16z/plugin-solana";
+} from "@elizaos/core";
+import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
+import { solanaPlugin } from "@elizaos/plugin-solana";
+import {createNodePlugin, NodePlugin} from "@elizaos/plugin-node";
 import Database from "better-sqlite3";
 import fs from "fs";
-import path from "path";
 import readline from "readline";
-import { fileURLToPath } from "url";
 import yargs from "yargs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { character } from "./character.ts";
+import net from "net";
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
@@ -77,6 +78,7 @@ export async function loadCharacters(
 
   if (characterPaths?.length > 0) {
     for (const path of characterPaths) {
+      console.log('path', path);
       try {
         const character = JSON.parse(fs.readFileSync(path, "utf8"));
 
@@ -199,6 +201,8 @@ export async function initializeClients(
   return clients;
 }
 
+let nodePlugin: any | undefined;
+
 export function createAgent(
   character: Character,
   db: IDatabaseAdapter,
@@ -210,6 +214,9 @@ export function createAgent(
     "Creating runtime for character",
     character.name
   );
+
+  nodePlugin ??= createNodePlugin();
+
   return new AgentRuntime({
     databaseAdapter: db,
     token,
@@ -227,6 +234,13 @@ export function createAgent(
     managers: [],
     cacheManager: cache,
   });
+}
+
+function initializeFsCache(baseDir: string, character: Character) {
+  const cacheDir = path.resolve(baseDir, character.id, "cache");
+
+  const cache = new CacheManager(new FsCacheAdapter(cacheDir));
+  return cache;
 }
 
 function initializeDbCache(character: Character, db: IDatabaseCacheAdapter) {
@@ -255,11 +269,14 @@ async function startAgent(character: Character, directClient: DirectClient) {
 
     await runtime.initialize();
 
-    const clients = await initializeClients(character, runtime);
+    runtime.clients = await initializeClients(character, runtime);
 
     directClient.registerAgent(runtime);
 
-    return clients;
+    // report to console
+    elizaLogger.debug(`Started ${character.name} as ${runtime.agentId}`);
+
+    return runtime;
   } catch (error) {
     elizaLogger.error(
       `Error starting agent for character ${character.name}:`,
@@ -270,13 +287,33 @@ async function startAgent(character: Character, directClient: DirectClient) {
   }
 }
 
+const checkPortAvailable = (port: number): Promise<boolean> => {
+  return new Promise((resolve) => {
+    const server = net.createServer();
+
+    server.once("error", (err: NodeJS.ErrnoException) => {
+      if (err.code === "EADDRINUSE") {
+        resolve(false);
+      }
+    });
+
+    server.once("listening", () => {
+      server.close();
+      resolve(true);
+    });
+
+    server.listen(port);
+  });
+};
+
 const startAgents = async () => {
-  const directClient = await DirectClientInterface.start();
+  const directClient = new DirectClient();
+  let serverPort = parseInt(settings.SERVER_PORT || "3000");
   const args = parseArguments();
 
   let charactersArg = args.characters || args.character;
-
   let characters = [character];
+
   console.log("charactersArg", charactersArg);
   if (charactersArg) {
     characters = await loadCharacters(charactersArg);
@@ -300,6 +337,25 @@ const startAgents = async () => {
     });
   }
 
+  while (!(await checkPortAvailable(serverPort))) {
+    elizaLogger.warn(
+        `Port ${serverPort} is in use, trying ${serverPort + 1}`
+    );
+    serverPort++;
+  }
+
+  // upload some agent functionality into directClient
+  directClient.startAgent = async (character: Character) => {
+    // wrap it so we don't have to inject directClient later
+    return startAgent(character, directClient);
+  };
+
+  directClient.start(serverPort);
+
+  if (serverPort !== parseInt(settings.SERVER_PORT || "3000")) {
+    elizaLogger.log(`Server started on alternate port ${serverPort}`);
+  }
+
   elizaLogger.log("Chat started. Type 'exit' to quit.");
   chat();
 };
@@ -319,11 +375,10 @@ rl.on("SIGINT", () => {
   process.exit(0);
 });
 
-async function handleUserInput(input, agentId) {
+async function handleUserInput(input :string, agentId :string) {
   if (input.toLowerCase() === "exit") {
     rl.close();
     process.exit(0);
-    return;
   }
 
   try {
