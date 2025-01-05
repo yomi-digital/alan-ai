@@ -5,77 +5,77 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  onnxruntime-node: ^1.20.0
+  onnxruntime-node: 1.20.0
 
 importers:
 
   .:
     dependencies:
       '@elizaos/adapter-postgres':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(vue@3.5.13(typescript@5.6.3))
       '@elizaos/adapter-sqlite':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)
       '@elizaos/client-auto':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)
       '@elizaos/client-direct':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(bufferutil@4.0.8)(postcss@8.4.49)(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(typescript@5.6.3)(utf-8-validate@5.0.10)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)(yaml@2.7.0)
       '@elizaos/client-discord':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(bufferutil@4.0.8)(canvas@2.11.2)(ffmpeg-static@5.2.0)(onnxruntime-node@1.20.0)(puppeteer-core@19.11.1(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(puppeteer@19.11.1(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(typescript@5.6.3)(utf-8-validate@5.0.10)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)
       '@elizaos/client-telegram':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(vue@3.5.13(typescript@5.6.3))
       '@elizaos/client-twitter':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(bufferutil@4.0.8)(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(utf-8-validate@5.0.10)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)
       '@elizaos/core':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(vue@3.5.13(typescript@5.6.3))
       '@elizaos/plugin-bootstrap':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(postcss@8.4.49)(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)(yaml@2.7.0)
       '@elizaos/plugin-image-generation':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(postcss@8.4.49)(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)(yaml@2.7.0)
       '@elizaos/plugin-node':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.7)(bufferutil@4.0.8)(canvas@2.11.2)(onnxruntime-node@1.20.0)(puppeteer-core@19.11.1(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(puppeteer@19.11.1(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(typescript@5.6.3)(utf-8-validate@5.0.10)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)(zod@3.23.8)
       '@elizaos/plugin-solana':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(@types/node@22.9.1)(axios@1.7.7)(bufferutil@4.0.8)(fastestsmallesttextencoderdecoder@1.0.22)(form-data@4.0.1)(jsdom@25.0.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10))(postcss@8.4.49)(react@18.3.1)(rollup@4.27.3)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(typescript@5.6.3)(utf-8-validate@5.0.10)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)(yaml@2.7.0)(zod@3.23.8)
       '@elizaos/plugin-starknet':
-        specifier: ^0.1.7
+        specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.0)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(@types/node@22.9.1)(axios@1.7.7)(ethers@6.13.4(bufferutil@4.0.8)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.0.8)(canvas@2.11.2)(utf-8-validate@5.0.10))(postcss@8.4.49)(qs@6.13.0)(react@18.3.1)(sswr@2.1.0(svelte@5.2.4))(svelte@5.2.4)(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)(yaml@2.7.0)
       '@tavily/core':
-        specifier: ^0.0.2
+        specifier: 0.0.2
         version: 0.0.2
       amqplib:
-        specifier: ^0.10.5
+        specifier: 0.10.5
         version: 0.10.5
       better-sqlite3:
-        specifier: ^11.5.0
+        specifier: 11.5.0
         version: 11.5.0
       fs:
         specifier: 0.0.1-security
         version: 0.0.1-security
       net:
-        specifier: ^1.0.2
+        specifier: 1.0.2
         version: 1.0.2
       path:
-        specifier: ^0.12.7
+        specifier: 0.12.7
         version: 0.12.7
       readline:
-        specifier: ^1.3.0
+        specifier: 1.3.0
         version: 1.3.0
       url:
-        specifier: ^0.11.4
+        specifier: 0.11.4
         version: 0.11.4
       ws:
-        specifier: ^8.18.0
+        specifier: 8.18.0
         version: 8.18.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       yargs:
         specifier: 17.7.2
@@ -85,10 +85,10 @@ importers:
         specifier: 10.9.2
         version: 10.9.2(@types/node@22.9.1)(typescript@5.6.3)
       tsup:
-        specifier: ^8.3.5
+        specifier: 8.3.5
         version: 8.3.5(postcss@8.4.49)(typescript@5.6.3)(yaml@2.7.0)
       typescript:
-        specifier: ^5.6.3
+        specifier: 5.6.3
         version: 5.6.3
 
 packages:
@@ -622,7 +622,7 @@ packages:
   '@echogarden/transformers-nodejs-lite@2.17.1-lite.3':
     resolution: {integrity: sha512-qD9kvrL1xmce0iiiNEyqq2GW1qoksqvdOpww3Gsgqx/O9tdU/M2R78fji9opY+QU9u8OKH9L+ZzsOQdF5FixZA==}
     peerDependencies:
-      onnxruntime-node: ^1.20.0
+      onnxruntime-node: 1.20.0
 
   '@elizaos/adapter-postgres@0.1.7':
     resolution: {integrity: sha512-qPkM3umNa7+URIuqOxfN7zYURrEdTt9/+JRMSeZQOQ+vG6sSiiuv4MzNm75DCfw1yG4bHSBv+omYnWlJhOGSHg==}
@@ -671,7 +671,7 @@ packages:
   '@elizaos/plugin-node@0.1.7':
     resolution: {integrity: sha512-VpRZZTsyy4KGdu0ZF/T6Z6APPn4QRILxtyAzxrRsSi1Helj7xYSeTTIVj2ZfVMM2gkOdo8YZE4Zu4+Gt22rukQ==}
     peerDependencies:
-      onnxruntime-node: ^1.20.0
+      onnxruntime-node: 1.20.0
       whatwg-url: 7.1.0
 
   '@elizaos/plugin-solana@0.1.7':
@@ -1204,10 +1204,6 @@ packages:
 
   '@noble/curves@1.3.0':
     resolution: {integrity: sha512-t01iSXPuN+Eqzb4eBX0S5oubSqXbK/xXa1Ne18Hj8f9pStxztHCE2gfboSp/dZRLSqfuLpRK2nDXDK+W9puocA==}
-
-  '@noble/curves@1.6.0':
-    resolution: {integrity: sha512-TlaHRXDehJuRNR9TfZDNQ45mMEd5dwUwmicsafcIX4SsNiqnCHKjE/1alYPd/lDRVhxdhUAlv8uEhMCI5zjIJQ==}
-    engines: {node: ^14.21.3 || >=16}
 
   '@noble/curves@1.7.0':
     resolution: {integrity: sha512-UTMhXK9SeDhFJVrHeUJ5uZlI6ajXg10O6Ddocf9S6GjbSBVZsJo88HzKwXznNfGpMTRDyJkqMjNDPYgf0qFWnw==}
@@ -2338,10 +2334,6 @@ packages:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
 
-  agent-base@7.1.1:
-    resolution: {integrity: sha512-H0TSyFNDMomMNJQBn8wFV5YC/2eJ+VXECwOadZJT554xP6cODZHPX3H9QMQECxvrgiSOP1pHjy1sMWQVYJOUOA==}
-    engines: {node: '>= 14'}
-
   agent-base@7.1.3:
     resolution: {integrity: sha512-jRR5wdylq8CkOe6hei19GGZnxM6rBGwFl3Bg0YItGDimvjGtAvdZk4Pu6Cl4u4Igsws4a1fd1Vq3ezrhn4KmFw==}
     engines: {node: '>= 14'}
@@ -2721,10 +2713,6 @@ packages:
   chalk@3.0.0:
     resolution: {integrity: sha512-4D3B6Wf41KOYRFdszmDqMCGq5VV/uMAB273JILmO+3jAlh8X4qDtdtgCR3fxtbLEMzSx22QdhnDcJvu2u1fVwg==}
     engines: {node: '>=8'}
-
-  chalk@5.3.0:
-    resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
-    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
 
   chalk@5.4.1:
     resolution: {integrity: sha512-zgVZuo2WcZgfUEmsn6eO3kINexW8RAE4maiQ8QNs8CtpPCSyMiYsULR3HQYkm3w8FIA3SberyMJMSldGsW+U3w==}
@@ -3761,10 +3749,6 @@ packages:
   https-proxy-agent@5.0.1:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
     engines: {node: '>= 6'}
-
-  https-proxy-agent@7.0.5:
-    resolution: {integrity: sha512-1e4Wqeblerz+tMKPIq2EMGiiWW1dIjZOksyHWSUm1rmuvw/how9hBHZ38lAGj5ID4Ik6EdkOw7NmWPy6LAwalw==}
-    engines: {node: '>= 14'}
 
   https-proxy-agent@7.0.6:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
@@ -7255,7 +7239,7 @@ snapshots:
     dependencies:
       '@coral-xyz/anchor-errors': 0.30.1
       '@coral-xyz/borsh': 0.30.1(@solana/web3.js@1.95.8(bufferutil@4.0.8)(utf-8-validate@5.0.10))
-      '@noble/hashes': 1.5.0
+      '@noble/hashes': 1.6.1
       '@solana/web3.js': 1.95.8(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       bn.js: 5.2.1
       bs58: 4.0.1
@@ -8509,14 +8493,9 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.3.3
 
-  '@noble/curves@1.6.0':
-    dependencies:
-      '@noble/hashes': 1.5.0
-
   '@noble/curves@1.7.0':
     dependencies:
       '@noble/hashes': 1.6.0
-    optional: true
 
   '@noble/hashes@1.3.2': {}
 
@@ -8524,8 +8503,7 @@ snapshots:
 
   '@noble/hashes@1.5.0': {}
 
-  '@noble/hashes@1.6.0':
-    optional: true
+  '@noble/hashes@1.6.0': {}
 
   '@noble/hashes@1.6.1': {}
 
@@ -9529,8 +9507,8 @@ snapshots:
   '@solana/web3.js@1.95.8(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/runtime': 7.26.0
-      '@noble/curves': 1.6.0
-      '@noble/hashes': 1.5.0
+      '@noble/curves': 1.7.0
+      '@noble/hashes': 1.6.1
       '@solana/buffer-layout': 4.0.1
       agentkeepalive: 4.5.0
       bigint-buffer: 1.1.5
@@ -9926,12 +9904,6 @@ snapshots:
   agent-base@5.1.1: {}
 
   agent-base@6.0.2:
-    dependencies:
-      debug: 4.3.7
-    transitivePeerDependencies:
-      - supports-color
-
-  agent-base@7.1.1:
     dependencies:
       debug: 4.3.7
     transitivePeerDependencies:
@@ -10346,8 +10318,6 @@ snapshots:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-
-  chalk@5.3.0: {}
 
   chalk@5.4.1: {}
 
@@ -11310,7 +11280,7 @@ snapshots:
   gaxios@6.7.1:
     dependencies:
       extend: 3.0.2
-      https-proxy-agent: 7.0.5
+      https-proxy-agent: 7.0.6
       is-stream: 2.0.1
       node-fetch: 2.7.0
       uuid: 9.0.1
@@ -11520,7 +11490,7 @@ snapshots:
 
   http-proxy-agent@7.0.2:
     dependencies:
-      agent-base: 7.1.1
+      agent-base: 7.1.3
       debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
@@ -11545,13 +11515,6 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.7
-    transitivePeerDependencies:
-      - supports-color
-
-  https-proxy-agent@7.0.5:
-    dependencies:
-      agent-base: 7.1.1
       debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
@@ -11806,7 +11769,7 @@ snapshots:
       form-data: 4.0.1
       html-encoding-sniffer: 4.0.0
       http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.5
+      https-proxy-agent: 7.0.6
       is-potential-custom-element-name: 1.0.1
       nwsapi: 2.2.16
       parse5: 7.2.1
@@ -11852,7 +11815,7 @@ snapshots:
   jsondiffpatch@0.6.0:
     dependencies:
       '@types/diff-match-patch': 1.0.36
-      chalk: 5.3.0
+      chalk: 5.4.1
       diff-match-patch: 1.0.5
 
   jsonfile@6.1.0:
@@ -11906,7 +11869,7 @@ snapshots:
       '@langchain/core': 0.3.27(openai@4.73.0(zod@3.23.8))
       '@langchain/openai': 0.3.16(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))
       '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))
-      js-tiktoken: 1.0.15
+      js-tiktoken: 1.0.16
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langsmith: 0.2.14(openai@4.73.0(zod@3.23.8))
@@ -12903,10 +12866,10 @@ snapshots:
 
   proxy-agent@6.3.1:
     dependencies:
-      agent-base: 7.1.1
+      agent-base: 7.1.3
       debug: 4.3.7
       http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.5
+      https-proxy-agent: 7.0.6
       lru-cache: 7.18.3
       pac-proxy-agent: 7.1.0
       proxy-from-env: 1.1.0
