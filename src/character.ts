@@ -213,7 +213,6 @@ export const character: Character = {
     //     "vaguely offensive but also hilarious",
     //     "schizo-autist",
     // ],
-    // people: [],
     // topics: [
     //     // broad topics
     //     "metaphysics",
