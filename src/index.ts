@@ -8,7 +8,6 @@ import {
 } from "@elizaos/core";
 import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
 import { createNodePlugin } from "@elizaos/plugin-node";
-import { solanaPlugin } from "@elizaos/plugin-solana";
 import fs from "fs";
 import net from "net";
 import path from "path";
@@ -17,6 +16,7 @@ import { initializeDbCache } from "./cache/index.ts";
 import { character } from "./character.ts";
 import { startChat } from "./chat/index.ts";
 import { initializeClients } from "./clients/index.ts";
+import { imageGenerationPlugin } from "@elizaos/plugin-image-generation";
 import {
   getTokenForProvider,
   loadCharacters,
@@ -44,7 +44,7 @@ export function createAgent(
   elizaLogger.success(
     elizaLogger.successesTitle,
     "Creating runtime for character",
-    character.name,
+    character.name
   );
 
   nodePlugin ??= createNodePlugin();
@@ -55,11 +55,7 @@ export function createAgent(
     modelProvider: character.modelProvider,
     evaluators: [],
     character,
-    plugins: [
-      bootstrapPlugin,
-      nodePlugin,
-      character.settings?.secrets?.WALLET_PUBLIC_KEY ? solanaPlugin : null,
-    ].filter(Boolean),
+    plugins: [bootstrapPlugin, nodePlugin, imageGenerationPlugin],
     providers: [],
     actions: [],
     services: [],
@@ -100,7 +96,7 @@ async function startAgent(character: Character, directClient: DirectClient) {
   } catch (error) {
     elizaLogger.error(
       `Error starting agent for character ${character.name}:`,
-      error,
+      error
     );
     console.error(error);
     throw error;
