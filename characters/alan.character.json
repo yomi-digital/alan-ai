@@ -1,9 +1,6 @@
 {
     "name": "Alan Turing",
-    "clients": [
-        "telegram",
-        "discord"
-    ],
+    "clients": [],
     "modelProvider": "heurist",
     "settings": {
         "voice": {

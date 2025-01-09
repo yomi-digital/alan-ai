@@ -15,6 +15,7 @@ import { fileURLToPath } from "url";
 import { initializeDbCache } from "./cache/index.ts";
 import { character } from "./character.ts";
 import { startChat } from "./chat/index.ts";
+import { webSearchPlugin } from "@elizaos/plugin-web-search";
 import { initializeClients } from "./clients/index.ts";
 import { imageGenerationPlugin } from "@elizaos/plugin-image-generation";
 import {
@@ -55,7 +56,12 @@ export function createAgent(
     modelProvider: character.modelProvider,
     evaluators: [],
     character,
-    plugins: [bootstrapPlugin, nodePlugin, imageGenerationPlugin],
+    plugins: [
+      bootstrapPlugin,
+      nodePlugin,
+      imageGenerationPlugin,
+      webSearchPlugin,
+    ],
     providers: [],
     actions: [],
     services: [],

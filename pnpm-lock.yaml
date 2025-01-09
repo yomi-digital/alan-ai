@@ -50,6 +50,9 @@ importers:
       '@elizaos/plugin-starknet':
         specifier: 0.1.7
         version: 0.1.7(@google-cloud/vertexai@1.9.2)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(@types/node@22.10.5)(axios@1.7.9)(ethers@6.13.5(bufferutil@4.0.9)(utf-8-validate@5.0.10))(jsdom@25.0.1(bufferutil@4.0.9)(canvas@2.11.2)(utf-8-validate@5.0.10))(postcss@8.4.49)(qs@6.13.1)(react@19.0.0)(sswr@2.1.0(svelte@5.16.2))(svelte@5.16.2)(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)(yaml@2.7.0)
+      '@elizaos/plugin-web-search':
+        specifier: ^0.1.7
+        version: 0.1.7(@google-cloud/vertexai@1.9.2)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.9)(postcss@8.4.49)(react@19.0.0)(sswr@2.1.0(svelte@5.16.2))(svelte@5.16.2)(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)(yaml@2.7.0)
       '@tavily/core':
         specifier: 0.0.2
         version: 0.0.2
@@ -695,6 +698,11 @@ packages:
 
   '@elizaos/plugin-trustdb@0.1.7':
     resolution: {integrity: sha512-m0QhRhvBtaQ0StOwN6mD/vJZtRYAp8tOurLPgC3gPVoTboxnzvR0T1KTSH7KrhbEo5MXLDZEGEC0DX2s/end0w==}
+    peerDependencies:
+      whatwg-url: 7.1.0
+
+  '@elizaos/plugin-web-search@0.1.7':
+    resolution: {integrity: sha512-5jZEwbkEfI9K9AiYny1pHlU3uptwpT9O2ZL47djXz2LFAhadZ9a0/06wP2T9b2rAr0jgXBE5MuxVEMOfHTT2fA==}
     peerDependencies:
       whatwg-url: 7.1.0
 
@@ -8172,6 +8180,41 @@ snapshots:
       - supports-color
       - svelte
       - terser
+      - tsx
+      - typeorm
+      - typescript
+      - vue
+      - yaml
+
+  '@elizaos/plugin-web-search@0.1.7(@google-cloud/vertexai@1.9.2)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.9)(postcss@8.4.49)(react@19.0.0)(sswr@2.1.0(svelte@5.16.2))(svelte@5.16.2)(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))(whatwg-url@14.1.0)(yaml@2.7.0)':
+    dependencies:
+      '@elizaos/core': 0.1.7(@google-cloud/vertexai@1.9.2)(@langchain/core@0.3.27(openai@4.73.0(zod@3.23.8)))(axios@1.7.9)(react@19.0.0)(sswr@2.1.0(svelte@5.16.2))(svelte@5.16.2)(vue@3.5.13(typescript@5.6.3))
+      tsup: 8.3.5(postcss@8.4.49)(typescript@5.6.3)(yaml@2.7.0)
+      whatwg-url: 14.1.0
+    transitivePeerDependencies:
+      - '@google-cloud/vertexai'
+      - '@langchain/anthropic'
+      - '@langchain/aws'
+      - '@langchain/cohere'
+      - '@langchain/core'
+      - '@langchain/google-genai'
+      - '@langchain/google-vertexai'
+      - '@langchain/groq'
+      - '@langchain/mistralai'
+      - '@langchain/ollama'
+      - '@microsoft/api-extractor'
+      - '@swc/core'
+      - axios
+      - cheerio
+      - encoding
+      - jiti
+      - peggy
+      - postcss
+      - react
+      - solid-js
+      - sswr
+      - supports-color
+      - svelte
       - tsx
       - typeorm
       - typescript
