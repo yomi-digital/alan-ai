@@ -88,10 +88,10 @@ export const localProvider: Provider = {
 
       let knowledge =
         "I'm giving you a list of files with their content. You can use this information to answer questions about the files, after the answer point to the file name and the line number where the answer is from.\n";
-      knowledge += "==INIT-FILE==\n";
+      knowledge += "==INIT-FILE: story.txt==\n";
       const story = fs.readFileSync("./repo/story.txt", "utf8");
       knowledge += story;
-      knowledge += "\n==END-FILE==\n";
+      knowledge += "\n==END-FILE: story.txt==\n";
       return knowledge;
     } catch (error) {
       elizaLogger.error("❌ Error in Local provider:", error);
