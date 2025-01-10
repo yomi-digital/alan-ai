@@ -60,7 +60,7 @@ async function validateQuery(text: string): Promise<boolean> {
 
     const isValid = hasGeneralQuery;
 
-    elizaLogger.info(`✅ Pushing knowledge to 42: ${isValid}`);
+    elizaLogger.info(`✅ Pushing knowledge? ${isValid}`);
     return isValid;
   } catch (error) {
     elizaLogger.warn(`❌ Error in Local validation:\n${error}`);
