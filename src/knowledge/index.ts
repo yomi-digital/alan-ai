@@ -5,9 +5,43 @@ import {
   Memory,
   State,
   elizaLogger,
-  knowledge,
 } from "@elizaos/core";
 import fs from "fs";
+
+function levenshtein(str1: string, str2: string): number {
+  const m = str1.length;
+  const n = str2.length;
+
+  // Create a matrix of size (m+1)x(n+1) filled with zeros
+  const dp: number[][] = Array(m + 1)
+    .fill(null)
+    .map(() => Array(n + 1).fill(0));
+
+  // Initialize first row and column
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+
+  // Fill in the rest of the matrix
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (str1[i - 1] === str2[j - 1]) {
+        // Characters match - no operation needed
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        // Take minimum of three operations:
+        dp[i][j] = Math.min(
+          dp[i - 1][j - 1] + 1, // substitution
+          dp[i - 1][j] + 1, // deletion
+          dp[i][j - 1] + 1 // insertion
+        );
+      }
+    }
+  }
+
+  // Return the bottom-right cell of the matrix
+  return dp[m][n];
+}
+
 function cleanText(text: string): string {
   const cleaned = text
     .replace(/<@!?\d+>/g, "") // Discord mentions
@@ -68,6 +102,94 @@ async function validateQuery(text: string): Promise<boolean> {
   }
 }
 
+interface Match {
+  lineNumber: number;
+  content: string;
+  context: string[];
+  score: number;
+  matchedTerms: Array<{
+    query: string;
+    matched: string;
+    similarity: number;
+  }>;
+}
+
+function calculateSimilarity(str1: string, str2: string): number {
+  const distance = levenshtein(str1.toLowerCase(), str2.toLowerCase());
+  const maxLength = Math.max(str1.length, str2.length);
+  return 1 - distance / maxLength;
+}
+
+function findFuzzyMatches(
+  text: string,
+  queryWords: string[],
+  similarityThreshold = 0.8
+): Array<{ word: string; similarity: number }> {
+  const textWords = text.toLowerCase().split(/\s+/);
+  const matches: Array<{ word: string; similarity: number }> = [];
+
+  for (const queryWord of queryWords) {
+    for (const textWord of textWords) {
+      const similarity = calculateSimilarity(queryWord, textWord);
+      if (similarity >= similarityThreshold) {
+        matches.push({ word: textWord, similarity });
+      }
+    }
+  }
+
+  return matches;
+}
+
+function findRelevantContent(
+  content: string,
+  query: string,
+  contextLines: number = 2,
+  minWordMatchRatio: number = 0.6,
+  similarityThreshold: number = 0.8
+): Match[] {
+  const lines = content.split("\n");
+  const matches: Match[] = [];
+  const queryWords = query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((word) => word.length > 0);
+  const minWordsRequired = Math.ceil(queryWords.length * minWordMatchRatio);
+
+  lines.forEach((line, index) => {
+    const fuzzyMatches = findFuzzyMatches(
+      line,
+      queryWords,
+      similarityThreshold
+    );
+
+    if (fuzzyMatches.length >= minWordsRequired) {
+      const contextStart = Math.max(0, index - contextLines);
+      const contextEnd = Math.min(lines.length, index + contextLines + 1);
+
+      const score =
+        fuzzyMatches.reduce((sum, match) => sum + match.similarity, 0) /
+        fuzzyMatches.length;
+
+      matches.push({
+        lineNumber: index + 1,
+        content: line.trim(),
+        context: lines.slice(contextStart, contextEnd),
+        score,
+        matchedTerms: fuzzyMatches.map((match) => ({
+          query:
+            queryWords.find(
+              (q) => calculateSimilarity(q, match.word) >= similarityThreshold
+            ) || "",
+          matched: match.word,
+          similarity: match.similarity,
+        })),
+      });
+    }
+  });
+
+  return matches.sort((a, b) => b.score - a.score);
+}
+
 export const localProvider: Provider = {
   get: async (
     runtime: IAgentRuntime,
@@ -76,23 +198,34 @@ export const localProvider: Provider = {
   ): Promise<string> => {
     try {
       const text = message.content.text.toLowerCase().trim();
-
       const isValidQuery = await validateQuery(text);
 
       if (!isValidQuery) {
-        elizaLogger.info("⚠️ Local Query validation failed");
+        elizaLogger.info("⚠️ Knowledge Query validation failed");
         return "";
       }
 
-      const cleanedQuery = cleanText(message.content.text).split("github:")[1];
+      const cleanedQuery = cleanText(message.content.text);
 
+      const filesInFolder = fs.readdirSync("./repo");
       let knowledge =
-        "I'm giving you a list of files with their content. You can use this information to answer questions about the files, after the answer point to the file name and the line number where the answer is from.\n";
-      knowledge += "==INIT-FILE: story.txt==\n";
-      const story = fs.readFileSync("./repo/story.txt", "utf8");
-      knowledge += story;
-      knowledge += "\n==END-FILE: story.txt==\n";
-      return knowledge;
+        "Here are the relevant matches (sorted by similarity):\n\n";
+
+      for (const file of filesInFolder) {
+        elizaLogger.info(`🔍 Processing file: ${file}`);
+        const fileContent = fs.readFileSync(`./repo/${file}`, "utf8");
+        const matches = findRelevantContent(fileContent, cleanedQuery);
+
+        if (matches.length > 0) {
+          knowledge += `==INIT-FILE: ${file}==\n`;
+          knowledge += fileContent;
+          knowledge += `==END-FILE: ${file}==\n\n`;
+        }
+      }
+
+      elizaLogger.info(`🔍 Knowledge: ${knowledge}`);
+
+      return knowledge || "No matching content found in the repository.";
     } catch (error) {
       elizaLogger.error("❌ Error in Local provider:", error);
       return "";
