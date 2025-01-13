@@ -9,7 +9,7 @@
     "start:service:all": "pm2 start pnpm --name=\"all\" --restart-delay=3000 --max-restarts=10 -- run start:all",
     "stop:service:all": "pm2 stop all",
     "start:agent:42": "pnpm start --characters=\"characters/42.character.json\"",
-    "start:agent:maximalist": "pnpm start --characters=\"characters/maximalist.json\""
+    "start:agent:maximalist": "pnpm start --characters=\"characters/maximalist.character.json\""
   },
   "dependencies": {
     "@elizaos/adapter-postgres": "0.1.7",
