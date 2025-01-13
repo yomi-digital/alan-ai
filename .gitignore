@@ -6,6 +6,7 @@ dist
 node_modules
 dist/
 
+data/*
 db.sqlite
 .idea
 

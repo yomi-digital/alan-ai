@@ -190,7 +190,7 @@ function findRelevantContent(
   return matches.sort((a, b) => b.score - a.score);
 }
 
-export const localProvider: Provider = {
+export const knowledgeProvider: Provider = {
   get: async (
     runtime: IAgentRuntime,
     message: Memory,
@@ -237,7 +237,7 @@ export const persistentKnowledgePlugin: Plugin = {
   name: "Persistent Knowledge",
   description: "Plugin for querying persistent knowledge",
   actions: [],
-  providers: [localProvider],
+  providers: [knowledgeProvider],
   evaluators: [],
 };
 

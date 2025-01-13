@@ -25,6 +25,7 @@ import {
 } from "./config/index.ts";
 import { initializeDatabase } from "./database/index.ts";
 import { persistentKnowledgePlugin } from "./knowledge/index.ts";
+import { ipfsPlugin } from "./pinata/index.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -63,6 +64,7 @@ export function createAgent(
       imageGenerationPlugin,
       webSearchPlugin,
       persistentKnowledgePlugin,
+      ipfsPlugin,
     ],
     providers: [],
     actions: [],
